@@ -40,3 +40,31 @@ Instalar las tres librerías requeridas utilizando el gestor de paquetes de Pyth
 
 ```bash
 pip install streamlit pymysql pandas
+```
+
+## 3. Ejecutar la aplicación
+
+Una vez instaladas las dependencias, lanza la aplicación con Streamlit desde el directorio del proyecto:
+
+```bash
+streamlit run main.py
+```
+
+Esto abrirá una pestaña en tu navegador con la interfaz web. Si usas un puerto distinto o quieres ejecutarlo en producción, consulta la documentación de Streamlit.
+
+## Cómo funciona el programa
+
+Resumen del flujo de ejecución y de la lógica principal:
+
+- **Inicio (Streamlit):** Al ejecutar `streamlit run main.py` se carga la interfaz definida en `main.py`.
+- **Panel lateral (sidebar):** El usuario proporciona los parámetros de conexión a MySQL (host, puerto, usuario, contraseña y nombre de la base de datos).
+- **Verificar y conectar:** Al pulsar `¡Verificar y Conectar!` la app llama a la función `conectar_base_datos(...)` que usa `pymysql.connect()` con parámetros TLS/SSL y un tiempo de espera. Si la conexión es correcta, se guarda un indicador en `st.session_state.conexion_ok` y las credenciales en `st.session_state.credenciales`.
+- **Explorador de base de datos:** Con la conexión aceptada, la app vuelve a establecer conexión temporalmente, ejecuta `SHOW TABLES;` (función `obtener_tablas`) y presenta la lista de tablas en un `selectbox`.
+- **Consulta de tabla:** Al seleccionar una tabla, la app ejecuta `pd.read_sql_query()` (función `consultar_tabla`) para obtener los registros en un `DataFrame` de `pandas`.
+- **Visualización y métricas:** Se muestran métricas rápidas (`Registros Auditados`, `Campos / Columnas`), una vista previa con `st.dataframe()` y, si existen columnas numéricas, se habilita un menú para elegir una columna y renderizar un gráfico con `st.bar_chart()`.
+- **Manejo de estado y cierre de conexiones:** La app intenta reutilizar credenciales guardadas en `st.session_state`, pero abre y cierra conexiones cuando es necesario para evitar dejar sockets abiertos. Los errores de conexión y de consulta se comunican al usuario mediante `st.error`, `st.warning` o `st.info`.
+
+## Archivos principales
+
+- [main.py]: Lógica del programa.
+- [README.md]: Documentación del proyecto (este archivo).
