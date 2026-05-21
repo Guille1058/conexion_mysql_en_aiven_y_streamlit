@@ -64,7 +64,8 @@ Resumen del flujo de ejecución y de la lógica principal:
 - **Visualización y métricas:** Se muestran métricas rápidas (`Registros Auditados`, `Campos / Columnas`), una vista previa con `st.dataframe()` y, si existen columnas numéricas, se habilita un menú para elegir una columna y renderizar un gráfico con `st.bar_chart()`.
 - **Manejo de estado y cierre de conexiones:** La app intenta reutilizar credenciales guardadas en `st.session_state`, pero abre y cierra conexiones cuando es necesario para evitar dejar sockets abiertos. Los errores de conexión y de consulta se comunican al usuario mediante `st.error`, `st.warning` o `st.info`.
 
-## Archivos principales
+## Archivos principales de proyecto
 
 - [main.py]: Lógica del programa.
 - [README.md]: Documentación del proyecto (este archivo).
+- [prueba_funcionamiento.png]: Demostración orientativa de funcionamiento.
